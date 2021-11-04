@@ -1,0 +1,53 @@
+package movie;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class moviesInsert {
+  public static void main(String[] args)
+  {
+    try
+    {
+    	Connection con = null;
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		System.out.println("Driver class loaded");
+		con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","1124");
+		System.out.println("Connection established");
+      Statement stmt = con.createStatement();
+      for(int i=1;i<=5;i++)
+      {
+             PreparedStatement ps=con.prepareStatement("insert into movies values (?,?,?,?,?)");
+
+      
+      
+      Scanner sc = new Scanner(System.in);
+      System.out.println("Enter MOVIE NAME:");
+      String movieName = sc.next();
+      System.out.println("Enter Actor:");
+      String actor = sc.next();
+      System.out.println("Enter Actress:");
+      String actress = sc.next();
+      System.out.println("Enter Director:");
+      String director = sc.next();
+      System.out.println("Enter Year:");
+      int year = sc.nextInt();
+      ps.setString(1,movieName);
+      ps.setString(2, actor);
+      ps.setString(3, actress);
+      ps.setString(4, director);
+      ps.setInt(5, year );
+      ps.executeUpdate();
+          
+      }
+      System.out.println("Record is inserted");
+      
+    }
+    catch(Exception e)
+    {
+      System.out.println(e);
+    }
+  }
+}
